@@ -7,15 +7,14 @@ const textarea = ref('')
   <el-container class="container">
     <el-header>Header</el-header>
     <el-main>
-      <el-space>
         <div>
           <el-row>
             <div>
-              <el-input class="input" v-model="textarea" style="width: 240px" :rows="30" type="textarea"
+              <el-input class="input" v-model="textarea" style="width: 300px" :rows="30" type="textarea"
                 placeholder="Please input" />
-              <el-input class="input" v-model="textarea" style="width: 240px" :rows="30" type="textarea"
+              <el-input class="input" v-model="textarea" style="width: 300px" :rows="30" type="textarea"
                 placeholder="Please input" />
-              <el-input class="input" v-model="textarea" style="width: 240px" :rows="30" type="textarea"
+              <el-input class="input" v-model="textarea" style="width: 300px" :rows="30" type="textarea"
                 placeholder="Please input" />
             </div>
           </el-row>
@@ -26,7 +25,6 @@ const textarea = ref('')
             </div>
           </el-row>
         </div>
-      </el-space>
     </el-main>
   </el-container>
 </template>
@@ -35,6 +33,10 @@ const textarea = ref('')
 .container {
   height: 100vh;
   width: 100vw;
+  /* 居中 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input {
