@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { uploadService } from '../api/upload.js' 
+import { uploadService, correctService } from '../api/upload.js' 
 const textarea = ref('')
 const textarea1 = ref('')
 const textarea2 = ref('')
@@ -9,9 +9,17 @@ const textarea2 = ref('')
 const handleUploadSuccess = (response) => {
 
     //打印上传结果
-    console.log(JSON.stringify(response.错误信息, null, 2))
+    console.log(JSON.stringify(response["Error(s)"], null, 2))
+    console.log(JSON.stringify(response["Score(s)"], null, 2));
+    
 
 
+}
+
+//上传前的钩子函数，用来重命名上传之后的文件
+const handleBeforeUpload = (file) => {
+  // 重命名文件名为 "uploaded_code.py"
+  return new File([file], 'uploaded_code.py')
 }
 
 // 文件选择后读取文件内容并显示到 textarea
@@ -44,6 +52,21 @@ const handleFileUpload = async () => {
   }
 }
 
+//访问后端代码修正接口
+const handleCorrect = async () => {
+
+  try {
+    // 使用 correctService 上传修正请求
+    const response = await correctService()
+    console.log(JSON.stringify(response.data.improved_items))
+    
+  } catch (error) {
+    console.error("修正失败", error)
+    alert("修正失败")
+  }
+
+}
+
 </script>
 
 <template>
@@ -70,11 +93,12 @@ const handleFileUpload = async () => {
               multiple 
               :limit="1" 
               :on-change="handleFileChange"
+              :before-upload="handleBeforeUpload"
               :on-success="handleUploadSuccess">
               <el-button type="primary">Click to upload</el-button>
             </el-upload>
             <el-button type="primary" @click="handleFileUpload">Submit</el-button>
-            <el-button type="primary" @click="() => { }">correct</el-button>
+            <el-button type="primary" @click="handleCorrect">correct</el-button>
           </div>
         </el-row>
       </div>
